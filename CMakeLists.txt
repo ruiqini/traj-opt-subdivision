@@ -1,0 +1,72 @@
+PROJECT(HighOrderCCD)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+#COMPILE SETTINGS
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release)
+ENDIF()
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")
+SET(CUDA_SEPARABLE_COMPILATION ON)
+IF(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  MESSAGE(STATUS "Build type: Debug")
+  IF(MSVC)
+    SET(CMAKE_CXX_FLAGS "/openmp /bigobj -Wall -std=c++11 -frounding-math ${CMAKE_CXX_FLAGS}")
+  ELSE(MSVC)
+    SET(CMAKE_CXX_FLAGS "-fopenmp -O0 -Wall -fPIC -std=c++11 -Wno-unused-function -frounding-math ${CMAKE_CXX_FLAGS}")
+  ENDIF(MSVC)
+ELSE()
+  MESSAGE(STATUS "Build type: Release")
+  IF(MSVC)
+    SET(CMAKE_CXX_FLAGS "/openmp /bigobj -Wall -std=c++11 -frounding-math ${CMAKE_CXX_FLAGS}")
+  ELSE(MSVC)
+    SET(CMAKE_CXX_FLAGS "-fopenmp -O3 -Wall -fPIC -std=c++11 -Wno-unused-function -frounding-math ${CMAKE_CXX_FLAGS}")
+  ENDIF(MSVC)
+ENDIF()
+set (CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
+#LIBRARY
+add_subdirectory(opengjk)
+#add_subdirectory(Exact-CDD)
+INCLUDE("${PROJECT_SOURCE_DIR}/cmake/modules/LoadLibs.cmake")
+#THIRD PARTY HEADERS
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+
+#link_directories( ${PROJECT_SOURCE_DIR}/mosek/lib/mosek8_1 )
+#include_directories(${PROJECT_SOURCE_DIR}/mosek/include)
+
+MACRO(SEARCH_SOURCE NAME DIRPRJ)
+  FILE(GLOB_RECURSE header${NAME} ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.h ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.hpp ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.hh)
+  FILE(GLOB_RECURSE source${NAME} ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.cpp ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.cpp ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.cc ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.c)
+  FILE(GLOB_RECURSE cuda_source${NAME} ${PROJECT_SOURCE_DIR}/${DIRPRJ}/*.cu)
+ENDMACRO(SEARCH_SOURCE)
+SEARCH_SOURCE(HighOrderCCD HighOrderCCD)
+
+#BUILD LIBRARY
+ADD_LIBRARY(HighOrderCCD SHARED
+  ${sourceHighOrderCCD} ${headerHighOrderCCD})
+#target_link_libraries(HighOrderCCD m )
+target_link_libraries(HighOrderCCD openGJKlib )
+#target_link_libraries(HighOrderCCD RationalCCD )
+target_link_libraries(HighOrderCCD igl::core igl::opengl igl::opengl_glfw igl::opengl_glfw_imgui igl::png)
+#target_link_libraries(HighOrderCCD mosek64)
+target_link_libraries(HighOrderCCD ${GMP_LIBRARIES})
+TARGET_LINK_LIBRARIES(HighOrderCCD ${ALL_LIBRARIES} ${ALL_STATIC_LIBRARIES})
+
+
+#EXE
+MACRO(ADD_EXE NAME)
+  ADD_EXECUTABLE(${NAME} ${NAME}.cpp)
+  #target_link_libraries(${NAME} m )
+  target_link_libraries(${NAME} openGJKlib )
+  #target_link_libraries(${NAME} RationalCCD )
+  target_link_libraries(${NAME} igl::core igl::opengl igl::opengl_glfw igl::opengl_glfw_imgui igl::png)
+  #target_link_libraries(${NAME} mosek64) 
+  target_link_libraries(${NAME} ${GMP_LIBRARIES})
+  IF(MSVC)
+    TARGET_LINK_LIBRARIES(${NAME} HighOrderCCD ${ALL_STATIC_LIBRARIES})
+  ELSE(MSVC)
+    TARGET_LINK_LIBRARIES(${NAME} HighOrderCCD gomp ${ALL_STATIC_LIBRARIES})
+  ENDIF(MSVC)
+ENDMACRO(ADD_EXE)
+#GEOMETRY
+ADD_EXE(debugPathPlanning3D)

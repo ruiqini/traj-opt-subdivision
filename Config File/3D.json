@@ -1,0 +1,16 @@
+{
+ "auto": 0,
+ "step_choose": 1,
+ "init": 1,
+ "res": 8,
+ "lambda": 1e1,
+ "epsilon": 1e-1,
+ "margin": 1e-1,
+ "offset": 0.1,
+ "exit": 0,
+ "init_ob": 1,
+ "init_wp": 0,
+ "init_pc": 0,
+ "vel_limit": 1,
+ "acc_limit": 20
+}
