@@ -1,1 +1,1 @@
-# NLC_ADMM
+# Trajectory Optimization based on Subdivison
