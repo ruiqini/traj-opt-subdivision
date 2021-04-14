@@ -12,7 +12,7 @@
 #include <igl/read_triangle_mesh.h>
 #include <igl/write_triangle_mesh.h>
 
-#include "nlohmann/json.hpp"    // https://github.com/nlohmann/json/tree/develop/single_include/nlohmann/json.hpp
+#include "lib/nlohmann/json.hpp"    // https://github.com/nlohmann/json/tree/develop/single_include/nlohmann/json.hpp
 #include <fstream>              // ifstream, ofstream
 #include <unistd.h>
 
