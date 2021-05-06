@@ -38,7 +38,7 @@ Extract compressed data file, there are three folders inside: `Config file/` `in
 `mesh/name` saves input environment mesh `name`, for example `name=bridge.stl`.
 
 #### Run command
-Move folders `Config file/` `init/` to `build/`, move all environment meshes to `build`.
+Move folders `Config file/` `init/` to `build/`, move all environment meshes to `build/`. Run commands:
 ```bash
 cd build
 mkdir result
