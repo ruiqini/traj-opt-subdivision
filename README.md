@@ -10,7 +10,7 @@ Here is environment meshes data and initial trajectories data in our paper.
 
 #### via CMake
 
-Our code was originally developed on Ubuntu 16.04. We provide the commands for installing TetWild in Ubuntu 16.04:
+Our code was originally developed on Ubuntu 16.04. We provide the commands for installing our project in Ubuntu 16.04:
 
 - Clone the repository into your local machine:
 
