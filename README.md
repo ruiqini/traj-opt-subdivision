@@ -1,5 +1,7 @@
 # Trajectory Optimization based on Subdivison
 
+This is the opensource reference implementation of the ICRA 2021 paper [Robust & Asymptotically Locally Optimal UAV-Trajectory Generation Based on Spline Subdivision.](https://ruiqini.github.io/SubTraj/ICRA21_TrajOpt.pdf)
+
 ## Dataset
 Here is environment meshes data and initial trajectories data in our paper. 
 
