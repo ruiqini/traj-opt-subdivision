@@ -44,7 +44,7 @@ Move folders `Config file/` `init/` to `build/`, move all environment meshes to 
 ```bash
 cd build
 mkdir result
-debugPathPlanning3D 3D.json name
+./debugPathPlanning3D 3D.json name
 ```
 Result information will be saved in `result/`.
 
