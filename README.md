@@ -46,5 +46,5 @@ cd build
 mkdir result
 ./debugPathPlanning3D 3D.json name
 ```
-Result information will be saved in `result/`.
+Press `,` to run optimization. Result information will be saved in `result/`.
 
